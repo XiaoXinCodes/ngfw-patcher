@@ -1,0 +1,4 @@
+# Dependencies for the 1S full-image builder and ARM regression tests.
+capstone==5.0.3
+unicorn==2.1.4
+keystone-engine==0.9.2

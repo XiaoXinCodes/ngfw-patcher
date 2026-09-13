@@ -62,5 +62,13 @@ Contribute your mod to this project!
 1. `FLASK_APP=app/__init__.py`
 2. `flask run` to start the flask app
 
+### 1S DRV319 with an external battery
+
+The [full STM32F103C8T6 image](firmware/1s/recovery/README.md) has been reported
+working by the owner of the target board. It retains stock parameter constants,
+uses a fixed 80% battery indication, and answers BMS register reads locally.
+[Build and flashing instructions](docs/1s-drv319-nobms.md) describe the complete
+image for `0x08000000`, device identity and validation scope.
+
 ## License
 Licensed under AGPLv3, see [LICENSE.md](LICENSE.md).

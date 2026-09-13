@@ -1,0 +1,150 @@
+{
+  "image_type": "full_flash_recovery_64KiB",
+  "flash_address": "0x08000000",
+  "size": 65536,
+  "sha256": "d38dac82b58e9f98973fde46b912191839f6635e86775e1072255e05ccef57d9",
+  "application": "DRV319 BMSREAD experimental",
+  "application_sha256": "3d22467450037e43722e25ff3268cb50f1515cc6ff8317e69dcb97eae3b8de0d",
+  "boot_sha256": "7f5574cb1233653db95e8cc4baf2b99f446ffb973e01651cde190f013262016a",
+  "data_template_sha256": "4385da291edd2284fadd9d055ee182d2f22bb36efd28f27946206162d43d3ce6",
+  "upstream_commit": "b4e03683d5f9fe6981a615855e2e3d34c36ab844",
+  "serial": "25699/38039257",
+  "serial_source": "authorized_replacement_not_original",
+  "uid_bytes_at_0x1FFFF7E8": "57ff6f068678554840210967",
+  "uid_words_little_endian": [
+    "0x066FFF57",
+    "0x48557886",
+    "0x67092140"
+  ],
+  "odometer_meters": 0,
+  "odometer_source": "unknown_reset_to_zero",
+  "vehicle_data_source": "upstream_recovery_template_personalized_not_original_backup",
+  "regions": {
+    "boot": "0x08000000",
+    "application": "0x08001000",
+    "vehicle_data": "0x0800F800"
+  },
+  "hardware_validation": {
+    "status": "user_reported_working",
+    "scope": "the STM32F103C8T6 board identified by the UID in this report",
+    "evidence": "User confirmed DRV319-BMSREAD-FULL-EXPERIMENTAL.bin is usable; not a claim that all hardware combinations are validated."
+  },
+  "application_patch": {
+    "status": "custom_drv319_bms_read_proxy",
+    "model": "1s",
+    "base": "DRV319",
+    "image_type": "application_only",
+    "application_address": "0x8001000",
+    "input_sha256": "c983d44ab7c68ff4c7b72e09ec7b862b009e00e8b2105a5f0a33bfc85b152387",
+    "output_sha256": "3d22467450037e43722e25ff3268cb50f1515cc6ff8317e69dcb97eae3b8de0d",
+    "size": 28148,
+    "changed_bytes": 145,
+    "battery_gauge": "fixed_80_percent_NOT_measured",
+    "assumptions": [
+      "Battery has its own protection BMS; Xiaomi BMS data lines are disconnected",
+      "Original controller voltage limits are suitable for the battery",
+      "Application is combined with a compatible bootloader and personalized device data"
+    ],
+    "changes": [
+      {
+        "name": "bms_poll_fixed80_adc_voltage",
+        "offset": "0x720",
+        "before": "2de9f04387b000266ba38df808600fcb03ad6d4c85e80f00e0790228",
+        "after": "04495020a1f86400034a1068a1f86800704700bf1809002070020020",
+        "branch_target": null
+      },
+      {
+        "name": "bms_read_proxy",
+        "offset": "0x740",
+        "before": "e07107b0bde8f083684d687e18b1152000f0fcfff5e7e178481ce070022905d3e670607910b902f04bfc6071a178481ca0701429e5d3a670a0790127002860797ed000283dd0287d88b385f82870dff86081404630f82e2fdff85891a9f8ce20",
+        "after": "012828d14a78222a25d18a78012a22d10a78032a1ed1cb78802b1bd20a79002a18d0f22a16d858008018b0f5807f11d870b582b00c461646fff7d2ffe3785800064d2d18009525203146012204f05afe02b070bd704703f00db800bf18090020",
+        "branch_target": null
+      },
+      {
+        "name": "bms_dispatch_hook",
+        "offset": "0x3958",
+        "before": "fff72cbf",
+        "after": "fcf7f2be",
+        "branch_target": null
+      },
+      {
+        "name": "bms_tx_enqueue_return",
+        "offset": "0x5754",
+        "before": "2de9",
+        "after": "7047",
+        "branch_target": null
+      },
+      {
+        "name": "skip_bms_errors_21_23",
+        "offset": "0x1f58",
+        "before": "687d",
+        "after": "0ee0",
+        "branch_target": "0x1f78"
+      },
+      {
+        "name": "skip_bms_cold_derating",
+        "offset": "0x5b10",
+        "before": "fd48",
+        "after": "0ee0",
+        "branch_target": "0x5b30"
+      },
+      {
+        "name": "skip_bms_hot_derating",
+        "offset": "0x5b48",
+        "before": "f448",
+        "after": "10e0",
+        "branch_target": "0x5b6c"
+      },
+      {
+        "name": "skip_bms_capacity_derating",
+        "offset": "0x5bc2",
+        "before": "b0f9",
+        "after": "02e0",
+        "branch_target": "0x5bca"
+      },
+      {
+        "name": "skip_bms_timeout_limit_test",
+        "offset": "0x5df8",
+        "before": "687d",
+        "after": "04e0",
+        "branch_target": "0x5e04"
+      },
+      {
+        "name": "skip_bms_serial_limit_test",
+        "offset": "0x5e0c",
+        "before": "95f8",
+        "after": "02e0",
+        "branch_target": "0x5e14"
+      },
+      {
+        "name": "skip_bms_timeout_error",
+        "offset": "0x5e30",
+        "before": "687d",
+        "after": "07e0",
+        "branch_target": "0x5e42"
+      },
+      {
+        "name": "skip_bms_serial_error",
+        "offset": "0x5e50",
+        "before": "95f8",
+        "after": "05e0",
+        "branch_target": "0x5e5e"
+      },
+      {
+        "name": "skip_bms_remaining_capacity_limit",
+        "offset": "0x5ef4",
+        "before": "b1f9",
+        "after": "28e0",
+        "branch_target": "0x5f48"
+      }
+    ],
+    "bms_protocol": "read_only_cached_register_proxy",
+    "bms_protocol_limits": [
+      "Decoded legacy BMS read requests from the dashboard interface only",
+      "SOC is fixed at 80; total voltage is copied from the controller ADC value",
+      "Other fields are cached/uninitialized values, not real battery measurements",
+      "No BMS firmware update/write emulation, cell measurements or real pack identity",
+      "Hardware confirmation applies only to the published board-specific full image"
+    ]
+  }
+}
